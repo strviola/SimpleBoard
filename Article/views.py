@@ -7,6 +7,7 @@ from django.template import loader, Context
 from Article.models import Article
 from django import shortcuts
 from django.template import RequestContext
+# from django.views.decorators.csrf import csrf_exempt
 
 
 def test(request):
