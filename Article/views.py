@@ -5,6 +5,7 @@
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.template import loader, Context
 from Article.models import Article
+from security import decorators
 from django import shortcuts
 from django.template import RequestContext
 # from django.views.decorators.csrf import csrf_exempt
@@ -34,6 +35,7 @@ def form(request):
         context_instance=RequestContext(request))
 
 
+@decorators.str_length('title')
 def post(request):
     try:
         title = request.POST['title']
