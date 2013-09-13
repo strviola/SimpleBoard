@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 '''
 Created on 2013/09/09
 
@@ -5,11 +7,10 @@ Created on 2013/09/09
 '''
 
 
-from __future__ import division  # float division
 import csv
 import os
 import sys
-
+import math
 
 # if DEBUG == True: use CSV file for test file
 DEBUG = True
@@ -18,23 +19,23 @@ DEBUG = True
 if DEBUG:
     SAVE_PATH = os.getcwd() + '/test.csv'
 else:
-    TEST_PATH = os.getcwd() + '/save.csv'
+    SAVE_PATH = os.getcwd() + '/save.csv'
 
 
 # CSV In-Out Utility functions
 def stack(var_name, value):
-    print 'save to ' + var_name
-    writer = csv.writer(open(SAVE_PATH, 'a'))
+    print('save to ' + var_name)
+    writer = csv.writer(open(SAVE_PATH, 'ab'))
     writer.writerow([var_name, value])
 
 
 def read_name(var_name):
     try:
-        csv_file = open(SAVE_PATH, 'r')
+        csv_file = open(SAVE_PATH, 'rb')
     except IOError:  # first time access
-        f = open(SAVE_PATH, 'w')
+        f = open(SAVE_PATH, 'wb')
         f.close()
-        csv_file = open(SAVE_PATH, 'r')
+        csv_file = open(SAVE_PATH, 'rb')
     
     reader = csv.reader(csv_file)
     result_list = []
@@ -46,26 +47,26 @@ def read_name(var_name):
 
 
 def reset():
-    print 'CAUTHION: This method will reset all stacked data!'
-    print 'Are you sure? (y/n)'
-    if raw_input().startswith('y'):
+    print('CAUTHION: This method will reset all stacked data!')
+    print('Are you sure? (y/n)')
+    if input().startswith('y'):
         _hard_reset()
 
 
 def _hard_reset():
-    f = open(SAVE_PATH, 'w')
+    f = open(SAVE_PATH, 'wb')
     f.close()
 
 
 def dump():
     try:
-        f = open(SAVE_PATH, 'r')
+        f = open(SAVE_PATH, 'rb')
     except IOError:
-        print 'No data.'
+        print('No data.')
         sys.exit()
 
     for line in f.readlines():
-        print line
+        print(line)
 
 
 # Statistics functions
@@ -77,10 +78,14 @@ def variance(int_list):
     m = mean(int_list)
     sq_list = [pow(x - m, 2) for x in int_list]
     return mean(sq_list)
+
+
+def deviation(int_list):
+    return math.sqrt(variance(int_list))
     
 
 if __name__ == '__main__':
-    print 'Hello CSV backends'
+    print('Hello CSV backends')
     _hard_reset()
     
     name = 'FIRST_TEST'
@@ -91,9 +96,9 @@ if __name__ == '__main__':
     stack(name, 10)
     
     for line in read_name(name):
-        print name + ', ' + line
+        print(name + ', ' + line)
     
     int_list = [int(i) for i in read_name(name)]
     
-    print mean(int_list)
-    print variance(int_list)
+    print(mean(int_list))
+    print(variance(int_list))
