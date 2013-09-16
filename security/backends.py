@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 '''
 Created on 2013/09/09
 
@@ -12,8 +10,9 @@ import os
 import sys
 import math
 
+
 # if DEBUG == True: use CSV file for test file
-DEBUG = True
+DEBUG = False
 
 
 if DEBUG:
@@ -25,17 +24,17 @@ else:
 # CSV In-Out Utility functions
 def stack(var_name, value):
     print('save to ' + var_name)
-    writer = csv.writer(open(SAVE_PATH, 'ab'))
+    writer = csv.writer(open(SAVE_PATH, 'a'))
     writer.writerow([var_name, value])
 
 
 def read_name(var_name):
     try:
-        csv_file = open(SAVE_PATH, 'rb')
+        csv_file = open(SAVE_PATH, 'r')
     except IOError:  # first time access
-        f = open(SAVE_PATH, 'wb')
+        f = open(SAVE_PATH, 'w')
         f.close()
-        csv_file = open(SAVE_PATH, 'rb')
+        csv_file = open(SAVE_PATH, 'r')
     
     reader = csv.reader(csv_file)
     result_list = []
@@ -54,19 +53,27 @@ def reset():
 
 
 def _hard_reset():
-    f = open(SAVE_PATH, 'wb')
+    f = open(SAVE_PATH, 'w')
     f.close()
 
 
 def dump():
     try:
-        f = open(SAVE_PATH, 'rb')
+        f = open(SAVE_PATH, 'r')
     except IOError:
         print('No data.')
         sys.exit()
 
     for line in f.readlines():
         print(line)
+
+
+def read_database(Model, attr_name, var_name):
+    '''
+    read all data from given model with given variable name
+    '''
+    for m in Model.objects.all():
+        stack(var_name, getattr(m, attr_name))
 
 
 # Statistics functions
@@ -92,13 +99,23 @@ if __name__ == '__main__':
     
     stack(name, 10)
     stack(name, 10)
-    stack(name, 11)
     stack(name, 10)
+    stack(name, 1000)
     
     for line in read_name(name):
         print(name + ', ' + line)
     
     int_list = [int(i) for i in read_name(name)]
     
-    print(mean(int_list))
-    print(variance(int_list))
+    m = mean(int_list)
+    v = variance(int_list)
+    d = deviation(int_list)
+    
+    print('m: %f, v: %f, d: %f' % (m, v, d))
+    
+    # tchevishev inequality
+    t = 500
+    if t <= d:
+        print('WARNING: This threshold will not make sense')
+    p = v / (t * t)
+    print('probability: %f' % p)

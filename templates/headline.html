@@ -1,24 +1,22 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Article Index</title>
-		<meta charset="UTF-8">
-	</head>
-	<body>
-		<h1>Index</h1>
-		{% if latest_post %}
-			<ul>
-				{% for post in latest_post %}
-					<li><a href="/articles/{{post.id}}/">
-						{{post.title}}
-					</a></li>
-				{% endfor %}
-			</ul>
-		{% else %}
-			<p>No posts yet.</p>
-		{% endif %}
+<head>
+<title>Article Index</title>
+<meta charset="UTF-8">
+</head>
+<body>
+	<h1>Index</h1>
 	<p>
 		<a href="/form/">New post</a>
 	</p>
-	</body>
+	{% if latest_post %}
+	<ul>
+		{% for post in latest_post %}
+		<li><a href="/articles/{{post.id}}/"> {{post.title}} </a></li> 
+		{% endfor %}
+	</ul>
+	{% else %}
+	<p>No posts yet.</p>
+	{% endif %}
+</body>
 </html>
