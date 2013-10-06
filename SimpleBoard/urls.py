@@ -2,7 +2,7 @@
 
 
 from django.conf.urls import patterns, include, url
-import Article.views as article
+import article.views as article
 from django.contrib import admin
 
 # Uncomment the next two lines to enable the admin:
