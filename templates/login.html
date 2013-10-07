@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load url from future %}
+
+{% block title %}
+	SimpleBoardにようこそ
+{% endblock %}
+
+{% block content %}
+	{% if form.errors %}
+		<p style="font-weight: bold; color: red;">
+			ユーザー名またはパスワードが間違っています。
+		</p>
+	{% endif %}
+	<h1>ログイン</h1>
+
+	<form action="{% url 'django.contrib.auth.views.login' %}">
+		<table>
+			{% csrf_token %}
+			<tr>
+				<td>{{ form.username.label_tag }}</td>
+				<td>{{ form.username }}</td>
+			</tr>
+			<tr>
+				<td>{{ form.password.label_tag }}</td>
+				<td>{{ form.password }}</td>
+			</tr>
+		</table>
+		<input type="submit" value="ログイン">
+		<input type="hidden" name="next" value="{{ next }}">
+		<a href="/accounts/signup/">アカウント作成</a>
+	</form>
+
+{% endblock %}

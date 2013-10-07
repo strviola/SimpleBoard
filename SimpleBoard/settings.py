@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-
+import os
 
 # Django settings for SimpleBoard project.
 
@@ -14,12 +13,14 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': '/Users/SuzukiRyota/Documents/workspace/SimpleBoard/sqlite.db',                      # Or path to database file if using sqlite3.
-        'USER': '',                      # Not used with sqlite3.
-        'PASSWORD': '',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+        # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'ENGINE': 'django.db.backends.sqlite3',
+        # path to database file if using sqlite3.
+        'NAME': os.path.join(os.getcwd(), 'sqlite.db'),
+        'USER': '',  # Not used with sqlite3.
+        'PASSWORD': '',  # Not used with sqlite3.
+        'HOST': '',  # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': '',  # Set to empty string for default. Not used with sqlite3.
     }
 }
 
@@ -113,6 +114,7 @@ TEMPLATE_DIRS = (
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
     '/Users/SuzukiRyota/Documents/workspace/SimpleBoard/templates',
+    '/Users/SuzukiRyota/SimpleBoard/templates'
 )
 
 INSTALLED_APPS = (
@@ -128,6 +130,8 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
+    # database migration app
+    'south',
 )
 
 # A sample logging configuration. The only tangible logging

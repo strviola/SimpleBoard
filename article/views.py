@@ -4,6 +4,7 @@ from django.template import loader, Context
 from article.models import Article
 from django import shortcuts
 from django.template import RequestContext
+from django.contrib.auth.decorators import login_required
 
 
 def test(request):
@@ -12,9 +13,9 @@ def test(request):
 
 def headline(request):
     # For practice, this view is written without shortcut.
-    latest_post = Article.objects.all().order_by('-date')
+    latest_post = Article.objects.order_by('-date')
     template = loader.get_template('headline.html')
-    context = Context(dict(latest_post=latest_post))
+    context = Context({'latest_post': latest_post})
     return HttpResponse(template.render(context))
 
 
@@ -25,11 +26,13 @@ def detail(request, article_id):
         'detail.html', {'article': a, 'date': d})
 
 
+@login_required
 def form(request):
     return shortcuts.render_to_response('form.html',
         context_instance=RequestContext(request))
 
 
+@login_required
 def post(request):
     try:
         title = request.POST['title']
